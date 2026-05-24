@@ -4,6 +4,41 @@ requireRole('client');
 
 $pdo      = getDB();
 $clientId = getUserId();
+$reviewSuccess = '';
+$reviewError = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
+    $projectId   = isset($_POST['project_id']) ? (int)$_POST['project_id'] : 0;
+    $developerId = isset($_POST['developer_id']) ? (int)$_POST['developer_id'] : 0;
+    $rating      = isset($_POST['rating']) ? (int)$_POST['rating'] : 0;
+    $comment     = isset($_POST['comment']) ? trim($_POST['comment']) : '';
+
+    if ($projectId <= 0 || $developerId <= 0 || $rating < 1 || $rating > 5) {
+        $reviewError = 'Please select a valid rating.';
+    } else {
+        try {
+            $check = $pdo->prepare("
+                SELECT id FROM reviews 
+                WHERE project_id = ? AND client_id = ? AND developer_id = ?
+            ");
+            $check->execute(array($projectId, $clientId, $developerId));
+
+            if ($check->fetch()) {
+                $reviewError = 'You have already reviewed this developer for this project.';
+            } else {
+                $stmt = $pdo->prepare("
+                    INSERT INTO reviews (project_id, client_id, developer_id, rating, comment, created_at)
+                    VALUES (?, ?, ?, ?, ?, NOW())
+                ");
+                $stmt->execute(array($projectId, $clientId, $developerId, $rating, $comment));
+
+                $reviewSuccess = 'Review submitted successfully.';
+            }
+        } catch (Exception $e) {
+            $reviewError = 'An error occurred while submitting the review.';
+        }
+    }
+}
 
 // Fetch client projects with offer count
 $stmt = $pdo->prepare("
@@ -126,6 +161,13 @@ $typeLabels = array(
                 <div class="alert alert-success">✅ Offer accepted successfully and project status updated.</div>
             <?php elseif ($_GET['msg'] === 'rejected'): ?>
                 <div class="alert alert-error">❌ Offer rejected.</div>
+                <?php if ($reviewSuccess): ?>
+                    <div class="alert alert-success"><?= htmlspecialchars($reviewSuccess) ?></div>
+                <?php endif; ?>
+
+                <?php if ($reviewError): ?>
+                    <div class="alert alert-error"><?= htmlspecialchars($reviewError) ?></div>
+                <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
 
@@ -270,6 +312,7 @@ $typeLabels = array(
                                                class="btn-accept"
                                                onclick="return confirm('Are you sure you want to accept this offer?')">
                                                 ✅ Accept Offer
+
                                             </a>
 
                                             <a href="my_projects.php?reject=<?= $offer['id'] ?>&view_offers=<?= $selectedProject['id'] ?>"
@@ -278,6 +321,41 @@ $typeLabels = array(
                                                 ❌ Reject
                                             </a>
                                         </div>
+                                    <?php endif; ?>
+                                    <?php if ($offerStatus === 'accepted'): ?>
+                                        <?php
+                                        $reviewCheck = $pdo->prepare("
+        SELECT id FROM reviews
+        WHERE project_id = ? AND client_id = ? AND developer_id = ?
+    ");
+                                        $reviewCheck->execute(array($selectedProject['id'], $clientId, $offer['developer_id']));
+                                        $alreadyReviewed = $reviewCheck->fetch();
+                                        ?>
+
+                                        <?php if ($alreadyReviewed): ?>
+                                            <div class="review-done">⭐ You have already reviewed this developer.</div>
+                                        <?php else: ?>
+                                            <form method="POST" action="my_projects.php?view_offers=<?= $selectedProject['id'] ?>" class="review-form">
+                                                <input type="hidden" name="project_id" value="<?= $selectedProject['id'] ?>">
+                                                <input type="hidden" name="developer_id" value="<?= $offer['developer_id'] ?>">
+
+                                                <label>Rate Developer</label>
+                                                <select name="rating" required>
+                                                    <option value="">Select rating</option>
+                                                    <option value="5">5 - Excellent</option>
+                                                    <option value="4">4 - Very Good</option>
+                                                    <option value="3">3 - Good</option>
+                                                    <option value="2">2 - Fair</option>
+                                                    <option value="1">1 - Poor</option>
+                                                </select>
+
+                                                <textarea name="comment" rows="3" placeholder="Write your feedback..."></textarea>
+
+                                                <button type="submit" name="submit_review" class="primary-btn btn-sm">
+                                                    Submit Review
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             <?php endforeach; ?>

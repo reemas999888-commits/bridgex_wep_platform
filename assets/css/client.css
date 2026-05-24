@@ -613,3 +613,35 @@
     color: var(--pink-light);
     line-height: 1;
 }
+.review-form {
+    margin-top: 18px;
+    padding: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-form label {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.review-form select,
+.review-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-family: inherit;
+}
+
+.review-done {
+    margin-top: 14px;
+    color: var(--pink-light);
+    font-weight: 600;
+}
