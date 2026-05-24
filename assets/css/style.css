@@ -152,8 +152,10 @@ main {
     border: 1px solid var(--border-color);
     padding: 12px 22px;
     border-radius: 28px;
-    color: var(--text-main);
+    color: var(--pink-light);
     transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .secondary-btn:hover {
@@ -407,6 +409,7 @@ main {
         flex-direction: column;
         display: flex;
     }
+
     .navbar {
         margin-top: 18px;
         flex-wrap: wrap;
@@ -450,5 +453,4 @@ main {
         justify-content: center;
         flex-wrap: wrap;
     }
-
 }

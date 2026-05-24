@@ -24,8 +24,8 @@
         <a href="/bridgx/contact.php">Contact</a>
         <a href="/bridgx/login.php" class="login-link">Login</a>
         <a href="/bridgx/register.php" class="nav-btn">Start Now</a>
+
     </nav>
 </header>
-
 <main>
 

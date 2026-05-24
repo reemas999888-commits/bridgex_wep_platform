@@ -119,11 +119,11 @@ function loginUser($email, $password) {
 
 function redirectByRole($role) {
     $routes = array(
-        'admin'     => '/admin/dashboard.php',
-        'client'    => '/client/dashboard.php',
-        'developer' => '/developer/dashboard.php',
+        'admin'     => '/bridgx/admin/dashboard.php',
+        'client'    => '/bridgx/client/dashboard.php',
+        'developer' => '/bridgx/developer/dashboard.php',
     );
-    $url = isset($routes[$role]) ? $routes[$role] : '/index.php';
+    $url = isset($routes[$role]) ? $routes[$role] : '/bridgx/index.php';
     header("Location: $url");
     exit;
 }
