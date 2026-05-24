@@ -1,6 +1,6 @@
 <?php
 // register.php
-// BridgeX Platform — صفحة التسجيل
+// BridgeX Platform — Registration Page
 // Created by: Nora
 // Compatible with PHP 5.6+
 
@@ -21,17 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role     = isset($_POST['role'])     ? trim($_POST['role'])     : '';
 
     if (empty($name) || empty($email) || empty($password) || empty($role)) {
-        $error = 'يرجى تعبئة جميع الحقول المطلوبة.';
+        $error = 'Please fill in all required fields.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'صيغة البريد الإلكتروني غير صحيحة.';
+        $error = 'Invalid email format.';
     } elseif (strlen($password) < 8) {
-        $error = 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.';
+        $error = 'Password must be at least 8 characters.';
     } elseif ($password !== $confirm) {
-        $error = 'كلمة المرور وتأكيدها غير متطابقتين.';
+        $error = 'Password and confirmation do not match.';
     } else {
         $result = registerUser($name, $email, $password, $role);
         if ($result['success']) {
-            $success = 'تم إنشاء الحساب بنجاح! يمكنك <a href="login.php">تسجيل الدخول</a> الآن.';
+            $success = 'Account created successfully! You can <a href="login.php">login</a> now.';
         } else {
             $error = $result['error'];
         }
@@ -43,11 +43,11 @@ $old_email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
 $old_role  = isset($_POST['role'])  ? $_POST['role']                    : '';
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب — BridgeX</title>
+    <title>Create Account — BridgeX</title>
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
@@ -58,7 +58,7 @@ $old_role  = isset($_POST['role'])  ? $_POST['role']                    : '';
         <div class="auth-logo">
             <span class="logo-bridge">Bridge</span><span class="logo-x">X</span>
         </div>
-        <h2 class="auth-title">إنشاء حساب جديد</h2>
+        <h2 class="auth-title">Create New Account</h2>
 
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
@@ -71,15 +71,15 @@ $old_role  = isset($_POST['role'])  ? $_POST['role']                    : '';
         <form id="registerForm" method="POST" action="register.php" novalidate>
 
             <div class="form-group">
-                <label for="name">الاسم الكامل <span class="required">*</span></label>
+                <label for="name">Full Name <span class="required">*</span></label>
                 <input type="text" id="name" name="name"
                        value="<?php echo $old_name; ?>"
-                       placeholder="أدخل اسمك الكامل" required>
+                       placeholder="Enter your full name" required>
                 <span class="field-error" id="nameError"></span>
             </div>
 
             <div class="form-group">
-                <label for="email">البريد الإلكتروني <span class="required">*</span></label>
+                <label for="email">Email Address <span class="required">*</span></label>
                 <input type="email" id="email" name="email"
                        value="<?php echo $old_email; ?>"
                        placeholder="example@email.com" required>
@@ -87,35 +87,35 @@ $old_role  = isset($_POST['role'])  ? $_POST['role']                    : '';
             </div>
 
             <div class="form-group">
-                <label for="password">كلمة المرور <span class="required">*</span></label>
+                <label for="password">Password <span class="required">*</span></label>
                 <input type="password" id="password" name="password"
-                       placeholder="8 أحرف على الأقل" required>
+                       placeholder="At least 8 characters" required>
                 <span class="field-error" id="passwordError"></span>
             </div>
 
             <div class="form-group">
-                <label for="confirm">تأكيد كلمة المرور <span class="required">*</span></label>
+                <label for="confirm">Confirm Password <span class="required">*</span></label>
                 <input type="password" id="confirm" name="confirm"
-                       placeholder="أعد إدخال كلمة المرور" required>
+                       placeholder="Re-enter your password" required>
                 <span class="field-error" id="confirmError"></span>
             </div>
 
             <div class="form-group">
-                <label for="role">نوع الحساب <span class="required">*</span></label>
+                <label for="role">Account Type <span class="required">*</span></label>
                 <select id="role" name="role" required>
-                    <option value="">-- اختر نوع الحساب --</option>
-                    <option value="client"    <?php echo ($old_role === 'client')    ? 'selected' : ''; ?>>عميل (Client)</option>
-                    <option value="developer" <?php echo ($old_role === 'developer') ? 'selected' : ''; ?>>مطور (Developer)</option>
+                    <option value="">-- Select account type --</option>
+                    <option value="client"    <?php echo ($old_role === 'client')    ? 'selected' : ''; ?>>Client</option>
+                    <option value="developer" <?php echo ($old_role === 'developer') ? 'selected' : ''; ?>>Developer</option>
                 </select>
                 <span class="field-error" id="roleError"></span>
             </div>
 
-            <button type="submit" class="btn-auth">إنشاء الحساب</button>
+            <button type="submit" class="btn-auth">Create Account</button>
 
         </form>
 
         <p class="auth-switch">
-            لديك حساب بالفعل؟ <a href="login.php">سجّل دخولك</a>
+            Already have an account? <a href="login.php">Login</a>
         </p>
 
     </div>
@@ -136,28 +136,28 @@ $old_role  = isset($_POST['role'])  ? $_POST['role']                    : '';
         var role     = document.getElementById('role').value;
 
         if (name.length < 3) {
-            document.getElementById('nameError').textContent = 'الاسم يجب أن يكون 3 أحرف على الأقل.';
+            document.getElementById('nameError').textContent = 'Name must be at least 3 characters.';
             valid = false;
         }
 
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            document.getElementById('emailError').textContent = 'صيغة البريد الإلكتروني غير صحيحة.';
+            document.getElementById('emailError').textContent = 'Invalid email format.';
             valid = false;
         }
 
         if (password.length < 8) {
-            document.getElementById('passwordError').textContent = 'كلمة المرور يجب أن تكون 8 أحرف على الأقل.';
+            document.getElementById('passwordError').textContent = 'Password must be at least 8 characters.';
             valid = false;
         }
 
         if (password !== confirm) {
-            document.getElementById('confirmError').textContent = 'كلمتا المرور غير متطابقتين.';
+            document.getElementById('confirmError').textContent = 'Passwords do not match.';
             valid = false;
         }
 
         if (!role) {
-            document.getElementById('roleError').textContent = 'يرجى اختيار نوع الحساب.';
+            document.getElementById('roleError').textContent = 'Please select an account type.';
             valid = false;
         }
 

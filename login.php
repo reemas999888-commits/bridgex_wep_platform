@@ -1,6 +1,6 @@
 <?php
 // login.php
-// BridgeX Platform — صفحة تسجيل الدخول
+// BridgeX Platform — Login Page
 // Created by: Nora
 // Compatible with PHP 5.6+
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = isset($_POST['password']) ? $_POST['password']       : '';
 
     if (empty($email) || empty($password)) {
-        $error = 'يرجى إدخال البريد الإلكتروني وكلمة المرور.';
+        $error = 'Please enter your email and password.';
     } else {
         $result = loginUser($email, $password);
         if ($result['success']) {
@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $old_email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول — BridgeX</title>
+    <title>Login — BridgeX</title>
     <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
@@ -46,20 +46,20 @@ $old_email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
         <div class="auth-logo">
             <span class="logo-bridge">Bridge</span><span class="logo-x">X</span>
         </div>
-        <h2 class="auth-title">تسجيل الدخول</h2>
+        <h2 class="auth-title">Login</h2>
 
         <?php if ($error): ?>
             <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <?php if (isset($_GET['registered'])): ?>
-            <div class="alert alert-success">تم إنشاء حسابك بنجاح! سجّل دخولك الآن.</div>
+            <div class="alert alert-success">Your account has been created successfully! Login now.</div>
         <?php endif; ?>
 
         <form id="loginForm" method="POST" action="login.php" novalidate>
 
             <div class="form-group">
-                <label for="email">البريد الإلكتروني <span class="required">*</span></label>
+                <label for="email">Email Address <span class="required">*</span></label>
                 <input type="email" id="email" name="email"
                        value="<?php echo $old_email; ?>"
                        placeholder="example@email.com" required>
@@ -67,18 +67,18 @@ $old_email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
             </div>
 
             <div class="form-group">
-                <label for="password">كلمة المرور <span class="required">*</span></label>
+                <label for="password">Password <span class="required">*</span></label>
                 <input type="password" id="password" name="password"
-                       placeholder="كلمة المرور" required>
+                       placeholder="Password" required>
                 <span class="field-error" id="passwordError"></span>
             </div>
 
-            <button type="submit" class="btn-auth">دخول</button>
+            <button type="submit" class="btn-auth">Login</button>
 
         </form>
 
         <p class="auth-switch">
-            ليس لديك حساب؟ <a href="register.php">سجّل الآن</a>
+            Don’t have an account? <a href="register.php">Register now</a>
         </p>
 
     </div>
@@ -97,12 +97,12 @@ $old_email = isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '';
 
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            document.getElementById('emailError').textContent = 'صيغة البريد الإلكتروني غير صحيحة.';
+            document.getElementById('emailError').textContent = 'Invalid email format.';
             valid = false;
         }
 
         if (password.length < 1) {
-            document.getElementById('passwordError').textContent = 'يرجى إدخال كلمة المرور.';
+            document.getElementById('passwordError').textContent = 'Please enter your password.';
             valid = false;
         }
 
