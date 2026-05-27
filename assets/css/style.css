@@ -275,8 +275,8 @@ main {
     border-radius: 5px;
     display: block;
 
-    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
-    mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at center, black 20gir%, transparent 45%);
+    mask-image: radial-gradient(circle at center, black 20%, transparent 45%);
 
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
