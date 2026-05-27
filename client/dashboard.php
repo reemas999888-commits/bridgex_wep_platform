@@ -53,15 +53,6 @@ $doneProjects = $stmt->fetchColumn();
 </header>
 
 <main>
-    <section class="image-slider-section">
-        <div class="image-slider">
-            <button type="button" class="slider-btn prev-slide" onclick="changeSlide(-1)">&#10094;</button>
-            <img src="../assets/images/slider-1.jpg" class="slider-photo active" alt="Slide 1">
-            <img src="../assets/images/slider-2.jpg" class="slider-photo" alt="Slide 2">
-            <img src="../assets/images/slider-3.jpg" class="slider-photo" alt="Slide 3">
-            <button type="button" class="slider-btn next-slide" onclick="changeSlide(1)">&#10095;</button>
-        </div>
-    </section>
     <section class="client-hero section">
         <div class="hero-badge">Welcome to BrigeX</div>
         <h1>Hello, <span class="pink-text"><?= htmlspecialchars($userName) ?></span></h1>
@@ -157,37 +148,6 @@ $doneProjects = $stmt->fetchColumn();
 
     <div class="footer-bottom">© 2026 BridgeX Platform — All rights reserved</div>
 </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var slides = document.querySelectorAll('.image-slider .slider-photo');
-        var current = 0;
 
-        function showSlide(index) {
-            if (slides.length === 0) return;
-
-            slides[current].classList.remove('active');
-
-            current = index;
-
-            if (current < 0) {
-                current = slides.length - 1;
-            }
-
-            if (current >= slides.length) {
-                current = 0;
-            }
-
-            slides[current].classList.add('active');
-        }
-
-        window.changeSlide = function (direction) {
-            showSlide(current + direction);
-        };
-
-        setInterval(function () {
-            showSlide(current + 1);
-        }, 5000);
-    });
-</script>
 </body>
 </html>
