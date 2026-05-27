@@ -276,7 +276,7 @@ main {
     display: block;
 
     -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
-    mask-image: radial-gradient(circle at center, black 19%, transparent 40%);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
 
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
