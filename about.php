@@ -27,7 +27,7 @@
         <div class="glass-panel">
             <h3>What Makes Us Different?</h3>
             <p>
-                Platforms like Upwork and Fiverr connect clients with freelancers. BridgeX focuses
+                Platforms BridgeX focuses
                 on improving the quality of the project request before offers are submitted.
             </p>
         </div>
